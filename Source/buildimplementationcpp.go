@@ -935,6 +935,9 @@ func buildOutCacheTemplateParameters (method ComponentDefinitionMethod, NameSpac
 			}
 		
 			cppParamType := getCppParamType(param, NameSpace, true);
+			if param.ParamType == "class" || param.ParamType == "optionalclass" {
+				cppParamType = "IBase*";
+			} 
 			result += cppParamType;
 		}
 		
