@@ -439,48 +439,342 @@ RTTIResult rtti_getsymbollookupmethod(RTTI_pvoid * pSymbolLookupMethod)
 
 RTTIResult rtti_implementsinterface(RTTI_Base pObject, RTTI_uint64 nClassHashBufferSize, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface)
 {
-	IBase* pIBaseClassInstance = (IBase *)pObject;
-	 if (strcmp(pClassName, "Base") == 0) {
-		*pImplementsInterface = dynamic_cast<IBase*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Animal") == 0) {
-		*pImplementsInterface = dynamic_cast<IAnimal*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Mammal") == 0) {
-		*pImplementsInterface = dynamic_cast<IMammal*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Reptile") == 0) {
-		*pImplementsInterface = dynamic_cast<IReptile*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Giraffe") == 0) {
-		*pImplementsInterface = dynamic_cast<IGiraffe*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Tiger") == 0) {
-		*pImplementsInterface = dynamic_cast<ITiger*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Snake") == 0) {
-		*pImplementsInterface = dynamic_cast<ISnake*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Turtle") == 0) {
-		*pImplementsInterface = dynamic_cast<ITurtle*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "AnimalIterator") == 0) {
-		*pImplementsInterface = dynamic_cast<IAnimalIterator*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	 if (strcmp(pClassName, "Zoo") == 0) {
-		*pImplementsInterface = dynamic_cast<IZoo*>(pIBaseClassInstance) != nullptr;
-		return RTTI_SUCCESS;
-	}
-	return RTTI_ERROR_INVALIDPARAM;
+  typedef RTTIResult (*BucketFunction)(IBase *, const RTTI_uint8 *, bool *);
+  static const BucketFunction pEmptyBucket = [](IBase *, const RTTI_uint8 *, bool *) { return RTTI_ERROR_INVALIDPARAM; };
+
+  static const BucketFunction Buckets[] = {
+      pEmptyBucket, // 0x0
+      pEmptyBucket, // 0x1
+      pEmptyBucket, // 0x2
+      pEmptyBucket, // 0x3
+      pEmptyBucket, // 0x4
+      pEmptyBucket, // 0x5
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x6
+        static const RTTI_uint8 SnakeHash[] = { 0x6, 0xDE, 0xBA, 0x59, 0x8, 0xB0, 0x7, 0xEB, 0x6F, 0x32, 0xD8, 0xD9, 0x5F, 0x3F, 0x61, 0xB5, };
+        if (memcmp(pClassHashBuffer, SnakeHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<ISnake*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0x7
+      pEmptyBucket, // 0x8
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x9
+        static const RTTI_uint8 BaseHash[] = { 0x9, 0x5A, 0x1B, 0x43, 0xEF, 0xFE, 0xC7, 0x39, 0x55, 0xE3, 0x1E, 0x79, 0x4, 0x38, 0xDE, 0x49, };
+        if (memcmp(pClassHashBuffer, BaseHash, 16) == 0) {
+            *pImplementsInterface = dynamic_cast<IBase*>(pIBaseClassInstance) != nullptr;
+            return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0xA
+      pEmptyBucket, // 0xB
+      pEmptyBucket, // 0xC
+      pEmptyBucket, // 0xD
+      pEmptyBucket, // 0xE
+      pEmptyBucket, // 0xF
+      pEmptyBucket, // 0x10
+      pEmptyBucket, // 0x11
+      pEmptyBucket, // 0x12
+      pEmptyBucket, // 0x13
+      pEmptyBucket, // 0x14
+      pEmptyBucket, // 0x15
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x16
+        static const RTTI_uint8 AnimalHash[] = { 0x16, 0x1E, 0x7C, 0xE7, 0xBF, 0xDC, 0x89, 0xAB, 0x4B, 0x9F, 0x52, 0xC1, 0xD4, 0xC9, 0x42, 0x12, };
+        if (memcmp(pClassHashBuffer, AnimalHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IAnimal*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0x17
+      pEmptyBucket, // 0x18
+      pEmptyBucket, // 0x19
+      pEmptyBucket, // 0x1A
+      pEmptyBucket, // 0x1B
+      pEmptyBucket, // 0x1C
+      pEmptyBucket, // 0x1D
+      pEmptyBucket, // 0x1E
+      pEmptyBucket, // 0x1F
+      pEmptyBucket, // 0x20
+      pEmptyBucket, // 0x21
+      pEmptyBucket, // 0x22
+      pEmptyBucket, // 0x23
+      pEmptyBucket, // 0x24
+      pEmptyBucket, // 0x25
+      pEmptyBucket, // 0x26
+      pEmptyBucket, // 0x27
+      pEmptyBucket, // 0x28
+      pEmptyBucket, // 0x29
+      pEmptyBucket, // 0x2A
+      pEmptyBucket, // 0x2B
+      pEmptyBucket, // 0x2C
+      pEmptyBucket, // 0x2D
+      pEmptyBucket, // 0x2E
+      pEmptyBucket, // 0x2F
+      pEmptyBucket, // 0x30
+      pEmptyBucket, // 0x31
+      pEmptyBucket, // 0x32
+      pEmptyBucket, // 0x33
+      pEmptyBucket, // 0x34
+      pEmptyBucket, // 0x35
+      pEmptyBucket, // 0x36
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x37
+        static const RTTI_uint8 MammalHash[] = { 0x37, 0x42, 0x61, 0x13, 0xD1, 0x29, 0xE7, 0x9F, 0x54, 0x8F, 0x4C, 0x90, 0x93, 0xF, 0xA6, 0x97, };
+        if (memcmp(pClassHashBuffer, MammalHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IMammal*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0x38
+      pEmptyBucket, // 0x39
+      pEmptyBucket, // 0x3A
+      pEmptyBucket, // 0x3B
+      pEmptyBucket, // 0x3C
+      pEmptyBucket, // 0x3D
+      pEmptyBucket, // 0x3E
+      pEmptyBucket, // 0x3F
+      pEmptyBucket, // 0x40
+      pEmptyBucket, // 0x41
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x42
+        static const RTTI_uint8 GiraffeHash[] = { 0x42, 0x7D, 0xEB, 0xB8, 0x1D, 0x26, 0x5A, 0xE, 0xDD, 0x87, 0x89, 0xF3, 0xB, 0x11, 0xBE, 0xB6, };
+        if (memcmp(pClassHashBuffer, GiraffeHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IGiraffe*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0x43
+      pEmptyBucket, // 0x44
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0x45
+        static const RTTI_uint8 TigerHash[] = { 0x45, 0x4C, 0x98, 0x43, 0x11, 0x6, 0x86, 0xBF, 0x6F, 0x67, 0xCE, 0x51, 0x15, 0xB6, 0x66, 0x17, };
+        if (memcmp(pClassHashBuffer, TigerHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<ITiger*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0x46
+      pEmptyBucket, // 0x47
+      pEmptyBucket, // 0x48
+      pEmptyBucket, // 0x49
+      pEmptyBucket, // 0x4A
+      pEmptyBucket, // 0x4B
+      pEmptyBucket, // 0x4C
+      pEmptyBucket, // 0x4D
+      pEmptyBucket, // 0x4E
+      pEmptyBucket, // 0x4F
+      pEmptyBucket, // 0x50
+      pEmptyBucket, // 0x51
+      pEmptyBucket, // 0x52
+      pEmptyBucket, // 0x53
+      pEmptyBucket, // 0x54
+      pEmptyBucket, // 0x55
+      pEmptyBucket, // 0x56
+      pEmptyBucket, // 0x57
+      pEmptyBucket, // 0x58
+      pEmptyBucket, // 0x59
+      pEmptyBucket, // 0x5A
+      pEmptyBucket, // 0x5B
+      pEmptyBucket, // 0x5C
+      pEmptyBucket, // 0x5D
+      pEmptyBucket, // 0x5E
+      pEmptyBucket, // 0x5F
+      pEmptyBucket, // 0x60
+      pEmptyBucket, // 0x61
+      pEmptyBucket, // 0x62
+      pEmptyBucket, // 0x63
+      pEmptyBucket, // 0x64
+      pEmptyBucket, // 0x65
+      pEmptyBucket, // 0x66
+      pEmptyBucket, // 0x67
+      pEmptyBucket, // 0x68
+      pEmptyBucket, // 0x69
+      pEmptyBucket, // 0x6A
+      pEmptyBucket, // 0x6B
+      pEmptyBucket, // 0x6C
+      pEmptyBucket, // 0x6D
+      pEmptyBucket, // 0x6E
+      pEmptyBucket, // 0x6F
+      pEmptyBucket, // 0x70
+      pEmptyBucket, // 0x71
+      pEmptyBucket, // 0x72
+      pEmptyBucket, // 0x73
+      pEmptyBucket, // 0x74
+      pEmptyBucket, // 0x75
+      pEmptyBucket, // 0x76
+      pEmptyBucket, // 0x77
+      pEmptyBucket, // 0x78
+      pEmptyBucket, // 0x79
+      pEmptyBucket, // 0x7A
+      pEmptyBucket, // 0x7B
+      pEmptyBucket, // 0x7C
+      pEmptyBucket, // 0x7D
+      pEmptyBucket, // 0x7E
+      pEmptyBucket, // 0x7F
+      pEmptyBucket, // 0x80
+      pEmptyBucket, // 0x81
+      pEmptyBucket, // 0x82
+      pEmptyBucket, // 0x83
+      pEmptyBucket, // 0x84
+      pEmptyBucket, // 0x85
+      pEmptyBucket, // 0x86
+      pEmptyBucket, // 0x87
+      pEmptyBucket, // 0x88
+      pEmptyBucket, // 0x89
+      pEmptyBucket, // 0x8A
+      pEmptyBucket, // 0x8B
+      pEmptyBucket, // 0x8C
+      pEmptyBucket, // 0x8D
+      pEmptyBucket, // 0x8E
+      pEmptyBucket, // 0x8F
+      pEmptyBucket, // 0x90
+      pEmptyBucket, // 0x91
+      pEmptyBucket, // 0x92
+      pEmptyBucket, // 0x93
+      pEmptyBucket, // 0x94
+      pEmptyBucket, // 0x95
+      pEmptyBucket, // 0x96
+      pEmptyBucket, // 0x97
+      pEmptyBucket, // 0x98
+      pEmptyBucket, // 0x99
+      pEmptyBucket, // 0x9A
+      pEmptyBucket, // 0x9B
+      pEmptyBucket, // 0x9C
+      pEmptyBucket, // 0x9D
+      pEmptyBucket, // 0x9E
+      pEmptyBucket, // 0x9F
+      pEmptyBucket, // 0xA0
+      pEmptyBucket, // 0xA1
+      pEmptyBucket, // 0xA2
+      pEmptyBucket, // 0xA3
+      pEmptyBucket, // 0xA4
+      pEmptyBucket, // 0xA5
+      pEmptyBucket, // 0xA6
+      pEmptyBucket, // 0xA7
+      pEmptyBucket, // 0xA8
+      pEmptyBucket, // 0xA9
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0xAA
+        static const RTTI_uint8 ReptileHash[] = { 0xAA, 0x64, 0x51, 0x86, 0xA4, 0xB5, 0xF3, 0xF2, 0x79, 0x52, 0xC2, 0xFA, 0x54, 0x85, 0xFA, 0xB2, };
+        if (memcmp(pClassHashBuffer, ReptileHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IReptile*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0xAB
+      pEmptyBucket, // 0xAC
+      pEmptyBucket, // 0xAD
+      pEmptyBucket, // 0xAE
+      pEmptyBucket, // 0xAF
+      pEmptyBucket, // 0xB0
+      pEmptyBucket, // 0xB1
+      pEmptyBucket, // 0xB2
+      pEmptyBucket, // 0xB3
+      pEmptyBucket, // 0xB4
+      pEmptyBucket, // 0xB5
+      pEmptyBucket, // 0xB6
+      pEmptyBucket, // 0xB7
+      pEmptyBucket, // 0xB8
+      pEmptyBucket, // 0xB9
+      pEmptyBucket, // 0xBA
+      pEmptyBucket, // 0xBB
+      pEmptyBucket, // 0xBC
+      pEmptyBucket, // 0xBD
+      pEmptyBucket, // 0xBE
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0xBF
+        static const RTTI_uint8 ZooHash[] = { 0xBF, 0xA8, 0x88, 0xA3, 0x54, 0xDB, 0x97, 0xC7, 0xCB, 0xEF, 0xB9, 0xD0, 0x50, 0xB9, 0x4C, 0xA3, };
+        if (memcmp(pClassHashBuffer, ZooHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IZoo*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0xC0
+      pEmptyBucket, // 0xC1
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0xC2
+        static const RTTI_uint8 AnimalIteratorHash[] = { 0xC2, 0xB3, 0x6A, 0x84, 0xC6, 0xC0, 0x32, 0x20, 0x4E, 0x5C, 0x92, 0x3C, 0x58, 0x10, 0x71, 0xE7, };
+        if (memcmp(pClassHashBuffer, AnimalIteratorHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<IAnimalIterator*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0xC3
+      pEmptyBucket, // 0xC4
+      pEmptyBucket, // 0xC5
+      pEmptyBucket, // 0xC6
+      pEmptyBucket, // 0xC7
+      pEmptyBucket, // 0xC8
+      pEmptyBucket, // 0xC9
+      pEmptyBucket, // 0xCA
+      pEmptyBucket, // 0xCB
+      pEmptyBucket, // 0xCC
+      pEmptyBucket, // 0xCD
+      pEmptyBucket, // 0xCE
+      pEmptyBucket, // 0xCF
+      pEmptyBucket, // 0xD0
+      pEmptyBucket, // 0xD1
+      pEmptyBucket, // 0xD2
+      pEmptyBucket, // 0xD3
+      pEmptyBucket, // 0xD4
+      pEmptyBucket, // 0xD5
+      pEmptyBucket, // 0xD6
+      pEmptyBucket, // 0xD7
+      pEmptyBucket, // 0xD8
+      pEmptyBucket, // 0xD9
+      pEmptyBucket, // 0xDA
+      pEmptyBucket, // 0xDB
+      pEmptyBucket, // 0xDC
+      pEmptyBucket, // 0xDD
+      pEmptyBucket, // 0xDE
+      [](IBase *pIBaseClassInstance, const RTTI_uint8 * pClassHashBuffer, bool * pImplementsInterface) { // 0xDF
+        static const RTTI_uint8 SnakeHash[] = { 0xDF, 0xA9, 0xF, 0x1B, 0x4E, 0xB3, 0xAF, 0xFB, 0xD3, 0xB4, 0x6A, 0xF3, 0x4E, 0xD2, 0x47, 0x7C, };
+        if (memcmp(pClassHashBuffer, SnakeHash, 16) == 0) {
+          *pImplementsInterface = dynamic_cast<ISnake*>(pIBaseClassInstance) != nullptr;
+          return RTTI_SUCCESS;
+        }
+        return RTTI_ERROR_INVALIDPARAM;
+      },
+      pEmptyBucket, // 0xE0
+      pEmptyBucket, // 0xE1
+      pEmptyBucket, // 0xE2
+      pEmptyBucket, // 0xE3
+      pEmptyBucket, // 0xE4
+      pEmptyBucket, // 0xE5
+      pEmptyBucket, // 0xE6
+      pEmptyBucket, // 0xE7
+      pEmptyBucket, // 0xE8
+      pEmptyBucket, // 0xE9
+      pEmptyBucket, // 0xEA
+      pEmptyBucket, // 0xEB
+      pEmptyBucket, // 0xEC
+      pEmptyBucket, // 0xED
+      pEmptyBucket, // 0xEE
+      pEmptyBucket, // 0xEF
+      pEmptyBucket, // 0xF0
+      pEmptyBucket, // 0xF1
+      pEmptyBucket, // 0xF2
+      pEmptyBucket, // 0xF3
+      pEmptyBucket, // 0xF4
+      pEmptyBucket, // 0xF5
+      pEmptyBucket, // 0xF6
+      pEmptyBucket, // 0xF7
+      pEmptyBucket, // 0xF8
+      pEmptyBucket, // 0xF9
+      pEmptyBucket, // 0xFA
+      pEmptyBucket, // 0xFB
+      pEmptyBucket, // 0xFC
+      pEmptyBucket, // 0xFD
+      pEmptyBucket, // 0xFE
+      pEmptyBucket, // 0xFF
+  };
+
+  if (nClassHashBufferSize != 16) // Hash length must be as expected
+    return RTTI_ERROR_INVALIDPARAM;
+
+  return Buckets[pClassHashBuffer[0]]((IBase *)pObject, pClassHashBuffer, pImplementsInterface);
 }
 
 RTTIResult rtti_createzoo(RTTI_Zoo * pInstance)
